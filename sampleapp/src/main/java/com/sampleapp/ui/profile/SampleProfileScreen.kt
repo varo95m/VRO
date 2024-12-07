@@ -9,17 +9,20 @@ import com.sampleapp.R
 import com.sampleapp.topbar.sampleBackToolbar
 import com.sampleapp.ui.base.SampleBaseScreen
 import com.vro.compose.preview.VROLightMultiDevicePreview
+import com.vro.compose.states.VROBottomBarBaseState
 import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarState
+import com.vro.compose.states.VROTopBarBaseState
 import com.vro.constants.INT_ONE
 
 class SampleProfileScreen : SampleBaseScreen<SampleProfileState, SampleProfileEvents>() {
 
-    override fun setBottomBar() = VROBottomBarState(selectedItem = INT_ONE)
-
-    override fun setTopBar() = sampleBackToolbar(
+    override fun setTopBar(currentState: VROTopBarBaseState) = sampleBackToolbar(
         title = context.getString(R.string.profile_toolbar),
         onNavigation = { navigateBack() }
     )
+
+    override fun setBottomBar(currentState: VROBottomBarBaseState) =
+        VROBottomBarState(selectedItem = INT_ONE)
 
     @Composable
     override fun ScreenContent(state: SampleProfileState) {

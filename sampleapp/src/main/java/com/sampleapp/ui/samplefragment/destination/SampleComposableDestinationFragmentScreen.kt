@@ -13,11 +13,12 @@ import com.sampleapp.topbar.sampleBackToolbar
 import com.sampleapp.ui.samplefragment.destination.SampleComposableDestinationFragmentEvents.BackWithResult
 import com.vro.compose.preview.VROLightMultiDevicePreview
 import com.vro.compose.screen.VROScreen
+import com.vro.compose.states.VROTopBarBaseState
 
 class SampleComposableDestinationFragmentScreen :
     VROScreen<SampleComposableDestinationFragmentState, SampleComposableDestinationFragmentEvents>() {
 
-    override fun setTopBar() = sampleBackToolbar(
+    override fun setTopBar(currentState: VROTopBarBaseState) = sampleBackToolbar(
         title = context.getString(R.string.profile_toolbar),
         onNavigation = { navigateBack() }
     )

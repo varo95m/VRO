@@ -21,7 +21,9 @@ import com.vro.compose.extensions.VROComposableDialog
 import com.vro.compose.extensions.VroBottomSheet
 import com.vro.compose.preview.VROLightMultiDevicePreview
 import com.vro.compose.skeleton.VROSkeleton
+import com.vro.compose.states.VROBottomBarBaseState
 import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarState
+import com.vro.compose.states.VROTopBarBaseState
 import com.vro.compose.utils.vroVerticalScroll
 import com.vro.constants.INT_ZERO
 import com.vro.state.VRODialogData
@@ -31,12 +33,14 @@ class SampleHomeScreen(
     override val skeleton: VROSkeleton = SampleHomeSkeleton(),
 ) : SampleBaseScreen<SampleHomeState, SampleHomeEvents>() {
 
-    override fun setTopBar() = sampleBackToolbar(
+
+    override fun setTopBar(currentState: VROTopBarBaseState) = sampleBackToolbar(
         title = context.getString(R.string.home_toolbar),
         onNavigation = { navigateBack() }
     )
 
-    override fun setBottomBar() = VROBottomBarState(selectedItem = INT_ZERO)
+    override fun setBottomBar(currentState: VROBottomBarBaseState) =
+        VROBottomBarState(selectedItem = INT_ZERO)
 
     @Composable
     override fun ScreenContent(state: SampleHomeState) {

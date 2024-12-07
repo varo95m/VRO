@@ -2,6 +2,7 @@ package com.vro.compose.extensions
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vro.compose.dialog.VROComposableDialogContent
 import com.vro.compose.initializers.InitializeEventsListener
 import com.vro.core_android.lifecycleevent.createLifecycleEventObserver
@@ -44,11 +45,23 @@ private fun <VM : VRODialogViewModel<S, E>, S : VROState, E : VROEvent> VroCompo
             screenLifecycle.removeObserver(observer)
         }
     }
-    when (val stepper = viewModel.stepper.collectAsState(VROStepper.VROStateStep(viewModel.initialState)).value) {
-        is VROStepper.VROSkeletonStep -> content.ComposableDialogSkeleton()
-        is VROStepper.VROStateStep -> content.CreateDialog(stepper.state, viewModel, listener, onDismiss)
-        is VROStepper.VROErrorStep -> content.onError(stepper.error, stepper.data)
-        else -> Unit
+    val stepper = viewModel.stepper.collectAsStateWithLifecycle(
+        initialValue = content.skeleton?.let {
+            VROStepper.VROSkeletonStep(viewModel.initialState)
+        } ?: VROStepper.VROStateStep(viewModel.initialState),
+        lifecycle = screenLifecycle
+    ).value
+
+    if (stepper is VROStepper.VROSkeletonStep) {
+        content.ComposableDialogSkeleton()
+    } else {
+        content.CreateDialog(stepper.state, viewModel, listener, onDismiss)
+        (stepper as? VROStepper.VRODialogStep)?.let {
+            content.onDialog(it.dialogState)
+        }
+        (stepper as? VROStepper.VROErrorStep)?.let {
+            content.onError(it.error, it.data)
+        }
     }
     InitializeEventsListener(viewModel)
 }

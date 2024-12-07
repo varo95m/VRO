@@ -9,9 +9,7 @@ import com.vro.compose.preview.VROLightMultiDevicePreview
 import com.vro.compose.skeleton.VROSkeleton
 import com.vro.compose.states.*
 import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarStartState
-import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarState
 import com.vro.compose.states.VROTopBarBaseState.VROTopBarStartState
-import com.vro.compose.states.VROTopBarBaseState.VROTopBarState
 import com.vro.compose.utils.isTablet
 import com.vro.event.VROEvent
 import com.vro.event.VROEventLauncher
@@ -33,9 +31,9 @@ abstract class VROScreenBase<S : VROState, E : VROEvent> {
 
     internal lateinit var bottomBarState: MutableState<VROBottomBarBaseState>
 
-    open fun setTopBar(): VROTopBarBaseState = VROTopBarStartState()
+    open fun setTopBar(currentState: VROTopBarBaseState): VROTopBarBaseState = VROTopBarStartState()
 
-    open fun setBottomBar(): VROBottomBarBaseState = VROBottomBarStartState()
+    open fun setBottomBar(currentState: VROBottomBarBaseState): VROBottomBarBaseState = VROBottomBarStartState()
 
     @Composable
     internal fun ComposableScreenSkeleton() {
