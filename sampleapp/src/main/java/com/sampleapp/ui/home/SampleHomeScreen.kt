@@ -89,6 +89,13 @@ class SampleHomeScreen(
             OutlinedButton(
                 modifier = Modifier.padding(top = 16.dp),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
+                onClick = { showSnackbar("Snackbar Example", actionLabel = "action") }
+            ) {
+                Text(text = "Show Snackbar")
+            }
+            OutlinedButton(
+                modifier = Modifier.padding(top = 16.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
                 onClick = { event((SampleHomeEvents.Profile)) }
             ) {
                 Text(text = "Profile Navigation")

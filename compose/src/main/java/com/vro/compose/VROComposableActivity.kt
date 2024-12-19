@@ -18,9 +18,11 @@ import com.google.accompanist.navigation.material.*
 import com.vro.compose.components.VroTopBar
 import com.vro.compose.extensions.destinationRoute
 import com.vro.compose.screen.VROScreen
+import com.vro.compose.snackbar.VROSnackbar
 import com.vro.compose.states.VROBottomBarBaseState
 import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarStartState
 import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarState
+import com.vro.compose.states.VROSnackBarState
 import com.vro.compose.states.VROTopBarBaseState
 import com.vro.compose.states.VROTopBarBaseState.VROTopBarStartState
 import com.vro.navigation.putStarterParam
@@ -68,6 +70,8 @@ abstract class VROComposableActivity : ComponentActivity() {
         this.navController = navController
         val topBarState = remember { mutableStateOf<VROTopBarBaseState>(VROTopBarStartState()) }
         val bottomBarState = remember { mutableStateOf<VROBottomBarBaseState>(VROBottomBarStartState()) }
+        val snackbarHostState = remember { SnackbarHostState() }
+        val snackbarState = remember { mutableStateOf<VROSnackBarState>(VROSnackBarState(snackbarHostState)) }
         ModalBottomSheetLayout(
             modifier = Modifier.fillMaxSize(),
             bottomSheetNavigator = bottomSheetNavigator,
@@ -88,7 +92,20 @@ abstract class VROComposableActivity : ComponentActivity() {
                             BottomBar(selectedItem = (it.selectedItem))
                         }
                     }
-                }
+                },
+                snackbarHost = {
+                    SnackbarHost(
+                        hostState = snackbarHostState,
+                        snackbar = {
+                            VROSnackbar(
+                                data = it,
+                                backgroundColor = snackbarState.value.backgroundColor,
+                                textColor = snackbarState.value.textColor,
+                                actionButtonColor = snackbarState.value.actionColor
+                            )
+                        }
+                    )
+                },
             ) { innerPadding ->
                 Column(
                     modifier = Modifier
@@ -106,7 +123,8 @@ abstract class VROComposableActivity : ComponentActivity() {
                         createComposableContent(
                             navController = navController,
                             topBarState = topBarState,
-                            bottomBarState = bottomBarState
+                            bottomBarState = bottomBarState,
+                            snackbarState = snackbarState
                         )
                     }
                 }
@@ -134,5 +152,6 @@ abstract class VROComposableActivity : ComponentActivity() {
         navController: NavHostController,
         topBarState: MutableState<VROTopBarBaseState>,
         bottomBarState: MutableState<VROBottomBarBaseState>,
+        snackbarState: MutableState<VROSnackBarState>,
     )
 }

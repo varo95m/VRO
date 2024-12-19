@@ -1,5 +1,6 @@
 package com.vro.compose.initializers
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -54,6 +55,7 @@ fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestination, E :
     screenLifecycle: Lifecycle,
     topBarState: MutableState<VROTopBarBaseState>,
     bottomBarState: MutableState<VROBottomBarBaseState>,
+    snackbarState: MutableState<VROSnackBarState>,
 ) {
     val stepper = viewModel.stepper.collectAsStateWithLifecycle(
         initialValue =
@@ -67,9 +69,10 @@ fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestination, E :
         content.ComposableScreenSkeleton()
     } else {
         content.ComposableScreenContainer(
-            stepper.state,
-            topBarState,
-            bottomBarState
+            state = stepper.state,
+            topBarState = topBarState,
+            bottomBarState = bottomBarState,
+            snackbarState = snackbarState
         )
         (stepper as? VROStepper.VRODialogStep)?.let {
             content.onDialog(it.dialogState)
