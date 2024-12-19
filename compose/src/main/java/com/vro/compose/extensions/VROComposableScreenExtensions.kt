@@ -3,6 +3,7 @@ package com.vro.compose.extensions
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.platform.LocalContext
@@ -14,6 +15,7 @@ import com.vro.compose.VROComposableViewModel
 import com.vro.compose.initializers.*
 import com.vro.compose.screen.*
 import com.vro.compose.states.VROBottomBarBaseState
+import com.vro.compose.states.VROSnackBarState
 import com.vro.compose.states.VROTopBarBaseState
 import com.vro.constants.INT_ZERO
 import com.vro.core_android.navigation.VROFragmentNavigator
@@ -29,19 +31,21 @@ fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestination, E :
     exitTransition: ExitTransition? = null,
     topBarState: MutableState<VROTopBarBaseState>,
     bottomBarState: MutableState<VROBottomBarBaseState>,
+    snackbarState: MutableState<VROSnackBarState>,
 ) {
     val route = content.destinationRoute()
     composable(
         route = route,
-        enterTransition = { enterTransition ?: fadeIn(animationSpec = tween(INT_ZERO))},
+        enterTransition = { enterTransition ?: fadeIn(animationSpec = tween(INT_ZERO)) },
         exitTransition = { exitTransition ?: fadeOut(animationSpec = tween(INT_ZERO)) }
     ) {
         VroComposableScreenContent(
             viewModel = viewModel(),
             topBarState = topBarState,
             bottomBarState = bottomBarState,
+            snackbarState = snackbarState,
             navigator = navigator,
-            content = content
+            content = content,
         )
     }
 }
@@ -53,12 +57,14 @@ fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestination, E :
     content: VROScreen<S, E>,
     topBarState: MutableState<VROTopBarBaseState>,
     bottomBarState: MutableState<VROBottomBarBaseState>,
+    snackbarState: MutableState<VROSnackBarState>,
 ) {
     VroComposableScreenContent(
         viewModel = viewModel,
         topBarState = topBarState,
         bottomBarState = bottomBarState,
         navigator = navigator,
+        snackbarState = snackbarState,
         content = content
     )
 }
@@ -70,13 +76,15 @@ fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestination, E :
     content: VROScreen<S, E>,
     topBarState: MutableState<VROTopBarBaseState>,
     bottomBarState: MutableState<VROBottomBarBaseState>,
+    snackbarState: MutableState<VROSnackBarState>,
 ) {
     VroComposableScreenContent(
         viewModel = viewModel,
         topBarState = topBarState,
         bottomBarState = bottomBarState,
         navigator = navigator,
-        content = content
+        content = content,
+        snackbarState = snackbarState
     )
 }
 
@@ -87,6 +95,7 @@ internal fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestina
     content: VROScreen<S, E>,
     topBarState: MutableState<VROTopBarBaseState>,
     bottomBarState: MutableState<VROBottomBarBaseState>,
+    snackbarState: MutableState<VROSnackBarState>,
 ) {
     content.context = LocalContext.current
     content.events = viewModel
@@ -113,7 +122,8 @@ internal fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestina
         content = content,
         screenLifecycle = screenLifecycle,
         topBarState = topBarState,
-        bottomBarState = bottomBarState
+        bottomBarState = bottomBarState,
+        snackbarState = snackbarState
     )
     InitializeEventsListener(
         viewModel = viewModel
@@ -128,6 +138,7 @@ internal fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestina
     content: VROScreen<S, E>,
     topBarState: MutableState<VROTopBarBaseState>,
     bottomBarState: MutableState<VROBottomBarBaseState>,
+    snackbarState: MutableState<VROSnackBarState>,
 ) {
     content.context = LocalContext.current
     content.events = viewModel
@@ -155,7 +166,8 @@ internal fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestina
         content = content,
         screenLifecycle = screenLifecycle,
         topBarState = topBarState,
-        bottomBarState = bottomBarState
+        bottomBarState = bottomBarState,
+        snackbarState = snackbarState
     )
     InitializeEventsListener(
         viewModel = viewModel

@@ -23,6 +23,7 @@ import com.vro.compose.screen.VROScreen
 import com.vro.compose.states.VROBottomBarBaseState
 import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarStartState
 import com.vro.compose.states.VROBottomBarBaseState.VROBottomBarState
+import com.vro.compose.states.VROSnackBarState
 import com.vro.compose.states.VROTopBarBaseState
 import com.vro.compose.states.VROTopBarBaseState.VROTopBarStartState
 import com.vro.core_android.fragment.VROFragmentInjection
@@ -113,6 +114,8 @@ abstract class VROComposableFragment<
         this.navController = this@VROComposableFragment.findNavController()
         val topBarState = remember { mutableStateOf<VROTopBarBaseState>(VROTopBarStartState()) }
         val bottomBarState = remember { mutableStateOf<VROBottomBarBaseState>(VROBottomBarStartState()) }
+        val snackbarHostState = remember { SnackbarHostState() }
+        val snackbarState = remember { mutableStateOf<VROSnackBarState>(VROSnackBarState(snackbarHostState)) }
         ModalBottomSheetLayout(
             modifier = Modifier.fillMaxSize(),
             bottomSheetNavigator = bottomSheetNavigator,
@@ -149,6 +152,7 @@ abstract class VROComposableFragment<
                         navigator = navigator,
                         topBarState = topBarState,
                         bottomBarState = bottomBarState,
+                        snackbarState = snackbarState,
                         content = composableView()
                     )
                 }
