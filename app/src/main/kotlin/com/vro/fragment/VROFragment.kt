@@ -96,7 +96,7 @@ abstract class VROFragment<
         initializeState(viewModel, this)
         observer = createLifecycleEventObserver(
             onCreate = {
-                viewModel.onNavParam(getStarterParam(findNavController().currentDestination?.id.toString()))
+                viewModel.onStarter(getStarterParam(findNavController().currentDestination?.id.toString()))
             },
             onStart = {
                 viewModel.onStart()

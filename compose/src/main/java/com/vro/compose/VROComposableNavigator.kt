@@ -21,33 +21,55 @@ abstract class VROComposableNavigator<D : VRODestination>(
         popScreen: VROScreen<*, *>? = null,
         inclusive: Boolean = false,
     ) {
-        navController.navigate(screen.destinationRoute()) {
+        navigateToRoute(
+            destinationRoute = screen.destinationRoute(),
+            starter = starter,
+            popScreen = popScreen,
+            inclusive = inclusive
+        )
+    }
+
+    fun openBottomSheet(
+        bottomSheet: VROComposableViewModelBottomSheetContent<*, *>,
+        starter: VRONavStarter? = null,
+        popScreen: VROScreen<*, *>? = null,
+        inclusive: Boolean = false,
+    ) {
+        navigateToRoute(
+            destinationRoute = bottomSheet.destinationRoute(),
+            starter = starter,
+            popScreen = popScreen,
+            inclusive = inclusive
+        )
+    }
+
+    fun openBottomSheet(
+        bottomSheet: VROComposableBottomSheetContent<*>,
+        starter: VRONavStarter? = null,
+        popScreen: VROScreen<*, *>? = null,
+        inclusive: Boolean = false,
+    ) {
+        navigateToRoute(
+            destinationRoute = bottomSheet.destinationRoute(),
+            starter = starter,
+            popScreen = popScreen,
+            inclusive = inclusive
+        )
+    }
+
+    private fun navigateToRoute(
+        destinationRoute: String,
+        starter: VRONavStarter? = null,
+        popScreen: VROScreen<*, *>? = null,
+        inclusive: Boolean = false,
+    ) {
+        navController.navigate(destinationRoute) {
             popScreen?.destinationRoute()?.let {
                 popUpTo(it) {
                     this.inclusive = inclusive
                 }
             }
         }
-        starter?.let {
-            putStarterParam(navController.currentDestination?.id.toString(), it)
-        }
-    }
-
-    fun openBottomSheet(
-        bottomSheet: VROComposableViewModelBottomSheetContent<*, *>,
-        starter: VRONavStarter? = null,
-    ) {
-        navController.navigate(bottomSheet.destinationRoute())
-        starter?.let {
-            putStarterParam(navController.currentDestination?.id.toString(), it)
-        }
-    }
-
-    fun openBottomSheet(
-        bottomSheet: VROComposableBottomSheetContent<*>,
-        starter: VRONavStarter? = null,
-    ) {
-        navController.navigate(bottomSheet.destinationRoute())
         starter?.let {
             putStarterParam(navController.currentDestination?.id.toString(), it)
         }

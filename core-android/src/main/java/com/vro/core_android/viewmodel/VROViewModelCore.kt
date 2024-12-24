@@ -32,7 +32,7 @@ abstract class VROViewModelCore<S : VROState, E : VROEvent> : ViewModel(), VROEv
 
     override val eventObservable: MutableSharedFlow<E> = createEventSharedFlow()
 
-    open fun onNavParam(navParam: VRONavStarter?) = Unit
+    open fun onStarter(starter: VRONavStarter?) = Unit
 
     open fun onStart() = Unit
 

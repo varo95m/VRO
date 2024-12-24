@@ -14,8 +14,8 @@ class SampleProfileViewModelTest : VROViewModelTest<SampleProfileState, SamplePr
     private val textMock = "testMock"
 
     @Test
-    fun `onNavParam should update screen state`() {
-        viewModel.onNavParam(SampleProfileNavStarter.Initialize(userId = textMock))
+    fun `onStarter should update screen state`() {
+        viewModel.onStarter(SampleProfileNavStarter.Initialize(userId = textMock))
         getDataState().also {
             assertEquals(textMock, it.userId)
         }

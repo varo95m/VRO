@@ -11,9 +11,9 @@ class SampleProfileViewModel : SampleBaseViewModel<SampleProfileState, SampleDes
 
     override fun onEvent(event: SampleProfileEvents) = Unit
 
-    override fun onNavParam(navParam: VRONavStarter?) {
-        when (navParam) {
-            is Initialize -> updateScreen { copy(userId = navParam.userId) }
+    override fun onStarter(starter: VRONavStarter?) {
+        when (starter) {
+            is Initialize -> updateScreen { copy(userId = starter.userId) }
         }
     }
 }

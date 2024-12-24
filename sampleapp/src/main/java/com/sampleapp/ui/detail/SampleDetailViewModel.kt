@@ -9,9 +9,9 @@ class SampleDetailViewModel : SampleBaseViewModel<SampleDetailState, SampleDesti
 
     override val initialState: SampleDetailState = SampleDetailState.INITIAL
 
-    override fun onNavParam(navParam: VRONavStarter?) {
-        when (navParam) {
-            is SampleDetailStarter.Initial -> updateScreen { navParam.state }
+    override fun onStarter(starter: VRONavStarter?) {
+        when (starter) {
+            is SampleDetailStarter.Initial -> updateScreen { starter.state }
         }
     }
 

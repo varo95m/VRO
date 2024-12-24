@@ -12,9 +12,9 @@ class SampleComposableDestinationFragmentViewModel :
 
     override val initialState: SampleComposableDestinationFragmentState = SampleComposableDestinationFragmentState.INITIAL
 
-    override fun onNavParam(navParam: VRONavStarter?) {
-        when (navParam) {
-            is SampleComposableDestinationStarter.Initial -> updateScreen { navParam.state }
+    override fun onStarter(starter: VRONavStarter?) {
+        when (starter) {
+            is SampleComposableDestinationStarter.Initial -> updateScreen { starter.state }
         }
     }
 

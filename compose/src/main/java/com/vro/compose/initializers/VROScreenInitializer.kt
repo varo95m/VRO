@@ -1,6 +1,5 @@
 package com.vro.compose.initializers
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -96,7 +95,7 @@ fun <VM : VROComposableViewModel<S, D, E>, S : VROState, D : VRODestination, E :
         val observer = createLifecycleEventObserver(
             onCreate = {
                 content.configureScaffold(topBarState, bottomBarState)
-                viewModel.onNavParam(getStarterParam(navController.currentDestination?.id.toString()))
+                viewModel.onStarter(getStarterParam(navController.currentDestination?.id.toString()))
             },
             onStart = {
                 viewModel.onStart()
