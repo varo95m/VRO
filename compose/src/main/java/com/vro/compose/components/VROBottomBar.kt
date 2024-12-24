@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -29,7 +30,10 @@ fun VROBottomBar(
         tonalElevation = 0.dp
     ) {
         Crossfade(targetState = selectedItem, label = EMPTY_STRING) { iconSelected ->
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 itemList.forEachIndexed { index, item ->
                     AnimatedIcon(
                         iconRes = item.icon,
